@@ -1,4 +1,5 @@
 # NFT-minting
+You can visit live demo website: https://old-tooth-7188.on.fleek.co/
 ## To whitelist your address follow the below steps:
 Go to [Goerli Testnet](https://goerli.etherscan.io/) and search up this contract address: 0x4B274e77b551D60ffE3595DDA5B3eF3B40fA5B77
 1) Go to the Read Contract tab and click on numAddressesWhitelisted - it should currently be set to 0 as nobody has joined the whitelist yet.
