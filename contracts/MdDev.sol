@@ -33,7 +33,7 @@ contract MdDev is ERC721Enumerable, Ownable {
     function mint() public payable {
         // Make sure i always leave enough room for whitelist reservations
         require(totalSupply() + reservedTokens - reservedTokensClaimed < maxTokenIds, "EXCEEDED_MAX_SUPPLY");
-
+        require(whitelist.whitelistedAddresses(msg.sender), "You are not whitelisted");
         // If user is part of the whitelist, make sure there is still reserved tokens left
         if (whitelist.whitelistedAddresses(msg.sender) && msg.value < _price) {
             // Make sure user doesn't already own an NFT

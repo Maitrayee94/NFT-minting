@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ethers , utils, providers } from "ethers";
 import Web3Modal from "web3modal";
 import "./App.css";
-import { ABI, NFT_CONTRACT_ADDRESS } from "./constant/index.js";
+import { ABI, NFT_CONTRACT_ADDRESS, WHITELIST_CONTRACT_ADDRESS, WHITELIST_ABI } from "./constant/index.js";
 
 function App() {
   const [account, setAccount] = useState("");
@@ -27,12 +27,24 @@ function App() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(NFT_CONTRACT_ADDRESS, ABI, signer);
+    const whilist_contract = new ethers.Contract(WHITELIST_CONTRACT_ADDRESS, WHITELIST_ABI, signer);
     console.log(contract.address);
+    console.log(whilist_contract.address);
+
+    const isWhitelisted = await whilist_contract.whitelistedAddresses(account);
+    if (!isWhitelisted) {
+      window.alert("Your address is not whitelisted");
+      return;
+    }
+
     const tx = await contract.mint({
       value: utils.parseEther("0.001"),
     });
     // wait for the transaction to get mined
     await tx.wait();
+    if (tx == "false"){
+      window.alert("you are not whitelisted");
+    }
     window.alert("You successfully minted a MD Dev!");
     //console.log(tx);
     setHash(tx.hash);
